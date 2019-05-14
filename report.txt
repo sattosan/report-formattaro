@@ -1,0 +1,139 @@
+Once in the Operation state, the host can connect to any
+other Internet destination. During normal operation, a host
+may become compromised. If network alarms inform the
+controller about the event, the controller can then shift the
+host to the Authenticated state.
+
+5. Challenges
+Scale When deploying the architecture on the campus network,
+we expect to encounter numerous challenges involving
+scalability. For example, the Georgia Tech residential
+network must support approximately 16,000 users; the portion
+of the campus that runs START comprises more than
+13,000 network ports, and future plans include expanding
+START to more than 40,000 active ports across academic
+buildings and merging START with the (separate) access
+control system currently used for the campus wireless network.
+A significant challenge will be implementing dynamic,
+fine-grained policies with flow-table entries, without
+exhausting switch memory or slowing forwarding. Recent
+proposals for optimizing customizable forwarding [2] may
+offer a useful starting point.
+Responsiveness End hosts and network devices must be able
+to quickly authenticate to the network controller; similarly,
+the network must be able to quickly quarantine a compromised
+host and curtail unwanted traffic. The current design
+is inadequate in this regard, as it has a single VLAN for quarantined
+hosts and requires hosts to re-boot to reassign hosts
+from one VLAN to another. The Resonance architecture offers
+more fine-grained, dynamic control over hosts’ traffic,
+but the control framework between the switches and controller
+must still be able to map hosts from one part of the
+network to another as quickly as possible. To enable this
+responsiveness, distributed inference must be fast, and the
+controller must be able to quickly and reliably alter the behavior
+of the switches themselves.
+Integration with monitoring The current START network
+access control system scans hosts when they are first introduced
+into the network but cannot re-assign these hosts
+to different networks when they are deemed to be compromised. In our ongoing work, we will integrate alarms that
+arise from distributed monitoring and inference into mechanisms
+that can affect traffic flows more directly.
+
+Securing the control framework The effectiveness of Resonance
+depends on the existence of a secure, reliable channel
+between the controller and the switches. The control
+messages between the controller and the switches must be
+authenticated (so that switches do not alter their behavior
+based on arbitrary control messages), and the channel must
+remain reliable and available, even when network utilization
+is high or the network itself comes under attack.
+
+6. Related Work
+Resonance draws inspiration from 4D [8] and Ethane [1],
+both of which advocate controlling network switches from a
+separate, logically centralized system. Ethane [1] is perhaps
+the most closely related work to Resonance. Like Ethane,
+Resonance defers traffic control to a centralized controller;
+however, Ethane does not support continuous monitoring
+and inference-based policy control. Ethane focuses primarily
+on host authentication, as opposed to security related
+problems such as monitoring and containment. Resonance
+extends the Ethane paradigm by exploring how dynamic security
+policies and actions (e.g., actions based on alerts from
+distributed detection systems) could be more directly integrated
+into the network fabric.
+
+NOX is a recently proposed “network operating system”
+that provides a uniform, centralized programmatic interface
+for a network [10]. Whereas NOX provides a platform for
+experimentation and research with new protocols, our proposed
+architecture should improve security by embedding
+security into the network itself. NOX could serve as a platform
+which we could use as the basis for our architecture.
+FSL is a policy language for NOX that allows network operators
+to write and maintain policies efficiently. Resonance
+focuses more on creating the actual policies that relate to dynamic
+access control and monitoring in enterprise networks
+
+Resonance allows network devices to operate on the granularity
+of flows. This function is enabled by the emerging
+OpenFlow standard [14] and has origins in the designs of
+earlier protocols (e.g., ATM [13]) and programmable switch
+architectures [18]. Recent trends in packet forwarding architectures
+(e.g., [2]) have tried to achieve a similar shift towards
+the lower layers by having the software part of the
+switch make forwarding and pass it on to the hardware.
+
+Some of the features of Resonance can be implemented
+using today’s protocols. VMPS [19] allows a network to
+map a host to its corresponding VLAN based on its MAC
+address. However, network operators achieve this mapping
+via manual configuration; if a host needs to be re-mapped
+based on a change in its state (e.g., if the host becomes
+compromised), VMPS provides no mechanism for automatically
+remapping such a host; this remapping must either be
+done manually, or a higher-layer, on-path security middlebox
+must take appropriate action. Resonance’s access control
+is both more dynamic and more fine-grained than the
+access control enabled by VMPS and VLANs.
+
+7. Summary and Future Work
+Existing enterprise networks leave network monitoring
+and access control to higher layers (e.g., DHCP, applicationlevel
+intrusion detection, etc.) and place considerable
+amounts of trust and responsibility into the network devices
+themselves, resulting in complex, error-prone configurations
+for enforcing security policies. To remedy these ills, network
+access control must be more dynamic and fine-grained, and
+it must make as few assumptions as possible about the behavior
+of the host. We have introduced a new framework,
+Resonance, for specifying dynamic access control policies
+for networks, described how this might be implemented in an
+OpenFlow-based architecture, and shown how to apply Resonance
+in the context of the Georgia Tech’s network access
+control framework. In addition to the test and operational
+deployments themselves, we are exploring how Resonance
+can support more complex access control policies.
+
+Testing and deployment Figure 4 illustrates the initial
+deployment platform that we are building to test the
+OpenFlow-based START architecture. The deployment is
+a dedicated network that is physically separate from the production
+network and yet has its own IP prefix and upstream
+connectivity. This platform will allow us to deploy and test
+Resonance before deploying it on the production network.
+The campus network currently supported by START was
+recently upgraded to include approximately 275 switches
+that are capable of supporting the OpenFlow firmware. One
+of the more significant practical challenges in the campus
+deployment will be straining the scalability of the system on
+a production network without disrupting connectivity. For
+example, the proposed architecture may involve installing
+many flow table entries in the switches, which may either
+exhaust memory or slow lookup performance if entries are
+not stored efficiently, or if state is not offloaded to the controller.
+To address this concern, we will first stress-test the
+design on the research testbed and subsequently the architecture
+on a smaller number of production switches before
+completely rolling out the architecture.
