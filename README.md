@@ -13,9 +13,10 @@ $ cd report-formattaro
 * anyenvのインストール
 
 ```bash
-$ brew install anyenv
-$ echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
-$ echo $SHELL -l
+$ git clone https://github.com/anyenv/anyenv ~/.anyenv
+$ echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
+$ echo 'eval "$(anyenv init -)"' >> ~/.bashrc
+$ exec $SHELL -l
 ```
 
 * rbenvのインストール
