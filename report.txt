@@ -1,13 +1,9 @@
-Computer viruses are a significant threat to network envi
-ronments. System administrators of networks often find it
-challenging to rapidly respond to Such a threat to the network.
-For example, although a single infected computer may be
-purged of the virus, a system administrator may find that the
-computer virus may infect various computers in the network
-for an extended period of time so long as there remains at least
-one infected computer in the network. In the meantime, the
-system administrator is often required to try to track down the
-virus to determine which computer in the network is repeat edly infecting and clogging up the network. This process is
-typically time consuming and expensive.
-What is needed is a technique for tracking computer infec
-tions. 
+1. Introduction
+hogehoge. hogehogehoge. hogehogehogehoge.hoge-
+hoge.hogehogehogehogehogehogehogehogehoge,
+hogehogehogehogehogehogehogehogehogehoge.
+
+2. Related Works
+hogehoge. hogehogehoge. hogehogehogehoge.hoge.
+hoge.hogehogehoge.hogehogehogehogehogehoge-
+hogehogehogehogehogehogehogehogehogehoge.
